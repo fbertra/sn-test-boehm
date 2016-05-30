@@ -32,7 +32,7 @@ object Main {
     fprintf(stdout, c"free bytes: %d\n", freeBytesBefore)
     fprintf(stdout, c"\n")
     
-    useMem ()
+    val freeBytesInsideUseMem = useMem ()
 
     GC2.GC_gcollect ()
     
@@ -44,6 +44,11 @@ object Main {
     fprintf(stdout, c"heap size: %d\n", heapSizeAfter1)
     fprintf(stdout, c"free bytes: %d\n", freeBytesAfter1)
     fprintf(stdout, c"\n")
+    
+    if (freeBytesInsideUseMem < freeBytesAfter1)
+      fprintf(stdout, c"\nBoehm rocks!!\n")
+    else
+      fprintf(stdout, c"\nCome on Boehm, you can do better next time....\n")
 
     ()
   }
@@ -54,7 +59,7 @@ object Main {
    * The memory is unreachable after this function return
    */
    
-  def useMem () : Unit = {
+  def useMem () : Long = {
     import scalanative.runtime
     
     val ptr = GC.malloc (10000000).cast[Ptr[Byte]]
@@ -85,7 +90,7 @@ object Main {
     // do something with the memory (force the use of the array)
     !ptr = 'H'
     
-    ()    
+    freeBytesAfter
   }
 }
 
