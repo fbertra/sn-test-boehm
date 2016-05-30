@@ -33,6 +33,8 @@ free bytes: 10190848
 
 
 Boehm rocks!!
+
+
 francois@ubuntu:~/proyectos/oss/scala-native-fbd/sn-test-boehm$ ./target/scala-2.11/sn-test-boehm-out 
 Test Boehm
 testBoehm (): before useMem
